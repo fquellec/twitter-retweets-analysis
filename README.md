@@ -20,14 +20,14 @@ Once we have our dataset of tweets, we can generate two type of interaction grap
 - Co-retweet Graph: BLABLABLA
 
 Example with keyword "police" in french: 
-<div style="text-align:center"><img src="https://raw.githubusercontent.com/twitter-retweets-analysis/master/imgs/police_graph.png" /></div>
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/Fanfou02/twitter-retweets-analysis/master/imgs/police_graph.png" /></div>
 
 ### Plots
 - Reactions versus Number of followers
-<div style="text-align:center"><img src="https://raw.githubusercontent.com/twitter-retweets-analysis/master/imgs/ReactionsVsFollowers.png" /></div>
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/Fanfou02/twitter-retweets-analysis/master/imgs/ReactionsVsFollowers.png" /></div>
 
 - Partisanship
-<div style="text-align:center"><img src="https://raw.githubusercontent.com/twitter-retweets-analysis/master/imgs/partisanship.png" /></div>
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/Fanfou02/twitter-retweets-analysis/master/imgs/partisanship.png" /></div>
 
 ## Getting Started
 
