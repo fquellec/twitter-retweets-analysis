@@ -1,8 +1,6 @@
-![Dashboard](https://raw.githubusercontent.com/twitter-retweets-analysis/master/imgs/police_graph.png)
-
 # Retweet networks and analysis of twitter discussions
 
-Intro blablabla 
+Intro BLABLABLA 
 
 ---
 
@@ -10,15 +8,28 @@ Intro blablabla
 
 ### Data Mining
 
+We propose three ways to collect tweets in the [data-mining](https://github.com/Fanfou02/twitter-retweets-analysis/tree/master/data-mining) folder : 
+- `searchKeyword.py`: BLABLABLA
+- `streamUsers.py`: BLABLABLA
+- `getTimelines.py`: BLABLABLA
+
 ### Graph generation
+
+Once we have our dataset of tweets, we can generate two type of interaction graph : 
+- Retweet Graph: BLABLABLA
+- Co-retweet Graph: BLABLABLA
+
+Example with keyword "police" in french: 
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/twitter-retweets-analysis/master/imgs/police_graph.png" /></div>
 
 ### Plots
 - Reactions versus Number of followers
-![Dashboard](https://raw.githubusercontent.com/twitter-retweets-analysis/master/imgs/ReactionsVsFollowers.pdf)
-- Partisanship
-![Dashboard](https://raw.githubusercontent.com/twitter-retweets-analysis/master/imgs/partisanship.png)
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/twitter-retweets-analysis/master/imgs/ReactionsVsFollowers.png" /></div>
 
-## Installation
+- Partisanship
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/twitter-retweets-analysis/master/imgs/partisanship.png" /></div>
+
+## Getting Started
 
 ### Clone
 
@@ -27,7 +38,7 @@ Intro blablabla
 $ git clone https://github.com/com-480-data-visualization/com-480-project-coronateam.git
 ```
 
-### Dependencies
+### Install Dependencies
 
 > Go to the `docs` folder with your terminal and install dependencies by executing the following
 
@@ -35,16 +46,14 @@ $ git clone https://github.com/com-480-data-visualization/com-480-project-corona
 $ npm install
 ```
 
-> now to host the web app and run it, e,g: 
+### Get some tweets
+BLABLABLA
 
-```shell
-# On Mac OS
-$ python -m SimpleHTTPServer 8000
+### Build the retweet/co-retweet graph
+BLABLABLA
 
-# On Windows/Linux
-$ pyhton -m http.server
-```
-> Finally open your browser and go to `http://localhost:8000/`. Enjoy !
+### Plot your results
+BLABLABLA
 
 
 ## License
