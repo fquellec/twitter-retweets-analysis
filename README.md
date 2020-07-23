@@ -1,4 +1,4 @@
-![Dashboard](https://raw.githubusercontent.com/twitter-retweets-analysis/master/imgs/police_graph.png)
+![Dashboard](https://raw.githubusercontent.com/Fanfou02/twitter-retweets-analysis/master/imgs/police_graph.png)
 
 # Retweet networks and analysis of twitter discussions
 
@@ -14,9 +14,9 @@ Intro blablabla
 
 ### Plots
 - Reactions versus Number of followers
-![Dashboard](https://raw.githubusercontent.com/twitter-retweets-analysis/master/imgs/ReactionsVsFollowers.pdf)
+![Dashboard](https://raw.githubusercontent.com/Fanfou02/twitter-retweets-analysis/master/imgs/ReactionsVsFollowers.pdf)
 - Partisanship
-![Dashboard](https://raw.githubusercontent.com/twitter-retweets-analysis/master/imgs/partisanship.png)
+![Dashboard](https://raw.githubusercontent.com/Fanfou02/twitter-retweets-analysis/master/imgs/partisanship.png)
 
 ## Installation
 
