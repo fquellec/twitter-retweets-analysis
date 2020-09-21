@@ -9,10 +9,10 @@ if not os.path.exists('results'):
     os.mkdir('results')
 
 # Search Parameters
-QUERY               = '#swisscovid OR #SwissCovidApp OR @SwissCovid OR swisscovid'  # Twitter Api query (OR/AND operators)
-LANGUAGE            =  None                                                         # Restrict the query to a specific language ('fr', 'en'), None for all
+QUERY               = 'police'  # Twitter Api query (OR/AND operators)
+LANGUAGE            =  'fr'                                                         # Restrict the query to a specific language ('fr', 'en'), None for all
 SINCE_ID            =  None                                                         # If results after a specific ID are required, if resulting file already exist will take last tweet id fetch
-MAX_ID              =  None                                                         # If results before a specific ID are required
+MAX_ID              =  None                                                         # If results before a specific ID are required only
 FILENAME            = 'results/' + QUERY + "_tweets.csv"                            # Resulting file
 
 # Fields we wants to retrieve from tweets

@@ -2,17 +2,19 @@ import networkx as nx
 from networkx.readwrite import json_graph
 import pandas as pd
 import metis
+import os
+import json
 
 
-FILENAME_TWEET 				= "data/trump_tweets.csv"		# CSV of all tweets considered in the graph, build with one of data_mining script
-FILENAME_GRAPH				= "trump_graph"					# Output filename
+FILENAME_TWEET              = "../data-mining/results/police_tweets.csv"        # CSV of all tweets considered in the graph, build with one of data_mining script
+FILENAME_GRAPH              = "police_graph"                            # Output filename
 
-INTERACTION_TREASHOLD 		= 2								# Remove interactions when there are not at least 2 interactions
-LARGEST_COMPONENT 			= True 							# Should it save the largest component of the graph or save the whole graph
-HITS						= True 							# Compute HITS algorithm for hubs and authorities
-PARTITIONS 					= True 							# Partition the graph in two parts
-CENTRALITIES				= True 							# Compute centralities stats
-PARTISANSHIP				= True 							# Compute partisanship score of nodes works only if PARTITIONS is set to True
+INTERACTION_TREASHOLD       = 2                             # Remove interactions when there are not at least 2 interactions
+LARGEST_COMPONENT           = True                          # Should it save the largest component of the graph or save the whole graph
+HITS                        = True                          # Compute HITS algorithm for hubs and authorities
+PARTITIONS                  = True                          # Partition the graph in two parts
+CENTRALITIES                = True                          # Compute centralities stats
+PARTISANSHIP                = True                          # Compute partisanship score of nodes works only if PARTITIONS is set to True
 
 
 
@@ -33,15 +35,15 @@ for index, tweet in tweets.iterrows():
     else:
         graph.add_node(tweet.user_id, followers=tweet.followers, label=tweet.user_name, nb_tweets=1)
     
-    if str(tweet.retweet_from_id) != "nan":
-        if not graph.has_node(tweet.retweet_from_id):
-            graph.add_node(tweet.retweet_from_id, label=tweet.retweet_from_username, nb_tweets=0)
+    if str(tweet.retweet_from_user_id) != "nan":
+        if not graph.has_node(tweet.retweet_from_user_id):
+            graph.add_node(tweet.retweet_from_user_id, label=tweet.retweet_from_username, nb_tweets=0)
             
         # Add or update edge user - interaction
-        if graph.has_edge(tweet.user_id, tweet.retweet_from_id):
-            graph[tweet.user_id][tweet.retweet_from_id]['weight'] += 1
+        if graph.has_edge(tweet.user_id, tweet.retweet_from_user_id):
+            graph[tweet.user_id][tweet.retweet_from_user_id]['weight'] += 1
         else:
-            graph.add_edge(tweet.user_id, tweet.retweet_from_id, weight=1)
+            graph.add_edge(tweet.user_id, tweet.retweet_from_user_id, weight=1)
             
 print()
 print(f"There are {graph.number_of_nodes()} nodes and {graph.number_of_edges()} \
@@ -60,21 +62,9 @@ for edge in edgeToRemove:
 
 # Remove isolated nodes
 graph.remove_nodes_from(list(nx.isolates(graph)))
-
-# Reset indexes
-graph = nx.convert_node_labels_to_integers(graph, label_attribute="tweet_id")
     
 print(f"There are {graph.number_of_nodes()} nodes and {graph.number_of_edges()} \
 edges present in the Graph after pruning edges")
-
-
-
-# Computes HITS algorithm for hubs and authorities
-if HITS:
-	h, a = nx.hits(graph, max_iter=300, tol=1e-07, nstart=None, normalized=True)
-	nx.set_node_attributes(G=graph, name='hub_score', values=h)
-	nx.set_node_attributes(G=graph, name='aut_score', values=a)
-
 
 # Take only largest component of the graph
 def connected_component_subgraphs(G):
@@ -82,24 +72,38 @@ def connected_component_subgraphs(G):
         yield G.subgraph(c)
 
 if LARGEST_COMPONENT:      
-	graph = max(connected_component_subgraphs(graph.to_undirected()), key=len)
+    graph = max(connected_component_subgraphs(graph.to_undirected()), key=len)
 
-	print(f"There are {graph.number_of_nodes()} nodes and {graph.number_of_edges()} \
-	edges present in the largest component of the Graph")
+    print(f"There are {graph.number_of_nodes()} nodes and {graph.number_of_edges()} \
+    edges present in the largest component of the Graph")
+
+# Reset indexes
+graph = nx.convert_node_labels_to_integers(graph, label_attribute="tweet_id")
+
+
+# Computes HITS algorithm for hubs and authorities
+if HITS:
+    try:
+        h, a = nx.hits(graph, max_iter=500, tol=1e-07, nstart=None, normalized=True)
+        nx.set_node_attributes(G=graph, name='hub_score', values=h)
+        nx.set_node_attributes(G=graph, name='aut_score', values=a)
+    except nx.PowerIterationFailedConvergence as err:
+        print("Hits failed:", err.args)
 
 if PARTITIONS:
-	colors = ['#f22613', '#3498db']
-	(edgecuts, parts) = metis.part_graph(graph, 2)
-	for i, p in enumerate(parts):
-	    graph.nodes[i]['group'] = p
-	    graph.nodes[i]['color'] = colors[p]
+    colors = ['#f22613', '#3498db']
+    (edgecuts, parts) = metis.part_graph(graph, 2)
+
+    for i, p in enumerate(parts):
+        graph.nodes[i]['group'] = p
+        graph.nodes[i]['color'] = colors[p]
 
 if CENTRALITIES:
-	deg_centrality =  nx.degree_centrality(graph)
-	clos_centrality =  nx.closeness_centrality(graph)
-	betw_centrality =  nx.betweenness_centrality(graph)
+    deg_centrality =  nx.degree_centrality(graph)
+    clos_centrality =  nx.closeness_centrality(graph)
+    betw_centrality =  nx.betweenness_centrality(graph)
 
-	nx.set_node_attributes(G=graph, name='betw_centrality', values=betw_centrality)
+    nx.set_node_attributes(G=graph, name='betw_centrality', values=betw_centrality)
     nx.set_node_attributes(G=graph, name='clos_centrality', values=clos_centrality)
     nx.set_node_attributes(G=graph, name='deg_centrality', values=deg_centrality)
 

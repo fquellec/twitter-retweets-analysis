@@ -2,3 +2,5 @@
 __pycache__
 results
 credentials.py
+retweet_graphs
+co_retweet_graphs

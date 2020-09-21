@@ -9,15 +9,15 @@ Intro BLABLABLA
 ### Data Mining
 
 We propose three ways to collect tweets in the [data-mining](https://github.com/Fanfou02/twitter-retweets-analysis/tree/master/data-mining) folder : 
-- `searchKeyword.py`: BLABLABLA
-- `streamUsers.py`: BLABLABLA
-- `getTimelines.py`: BLABLABLA
+- `searchKeyword.py`: collect tweets from the twitter api using the search call, by specifying one or more keywords or hashtags, we can retrieve up to the last week of the tweet corresponding to this keyword(s). (with the free twitter license)
+- `streamUsers.py`: use the streaming api of twitter to fetch in real time all tweets related to the list of accounts we specify.
+- `getTimelines.py`: retrieve up to 3200 tweets (depending on the license) of each user we specify.
 
 ### Graph generation
 
 Once we have our dataset of tweets, we can generate two type of interaction graph : 
 - Retweet Graph: BLABLABLA
-- Co-retweet Graph: BLABLABLA
+- Co-retweet Graph: co-retweeting is the act of a single user retweeting two - or more - different accounts. These acts are used to create between accounts co-returned in the network. The more users retweet these two accounts, the more likely they are to retweet, the more the advantage gains weight
 
 Example with keyword "police" in french: 
 <div style="text-align:center"><img src="https://raw.githubusercontent.com/Fanfou02/twitter-retweets-analysis/master/imgs/police_graph.png" /></div>
