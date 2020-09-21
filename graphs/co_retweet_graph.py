@@ -1,7 +1,6 @@
 import networkx as nx
 from networkx.readwrite import json_graph
 import pandas as pd
-import metis
 import os
 import json
 
@@ -11,7 +10,7 @@ FILENAME_GRAPH              = "police_graph"                    # Output filenam
 
 INTERACTION_TREASHOLD       = 2                             # Remove interactions when there are not at least 2 interactions
 LARGEST_COMPONENT           = True                          # Should it save the largest component of the graph or save the whole graph
-PARTITIONS                  = True                          # Partition the graph in two parts
+PARTITIONS                  = True                          # Partition the graph in two parts, need to install metis
 CENTRALITIES                = True                          # Compute centralities stats
 PARTISANSHIP                = True                          # Compute partisanship score of nodes works only if PARTITIONS is set to True
 
@@ -91,6 +90,7 @@ print(f"There are {graph.number_of_nodes()} nodes and {graph.number_of_edges()} 
 edges present in the Graph after pruning edges")
 
 if PARTITIONS:
+    import metis
     colors = ['#f22613', '#3498db']
     (edgecuts, parts) = metis.part_graph(graph, 2)
     for i, p in enumerate(parts):
@@ -106,7 +106,7 @@ if CENTRALITIES:
     nx.set_node_attributes(G=graph, name='clos_centrality', values=clos_centrality)
     nx.set_node_attributes(G=graph, name='deg_centrality', values=deg_centrality)
 
-if PARTISANSHIP:
+if PARTITIONS and PARTISANSHIP:
     for node in list(graph.nodes): 
         deg_0 = 0
         deg_1 = 0

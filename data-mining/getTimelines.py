@@ -1,52 +1,65 @@
 import tweepy
 import json
-import pickle
 import os
-from urllib3.exceptions import ProtocolError
-import twint
-import time
 import csv
 import pandas as pd
-from credentials import *
+import credentials
 
-actors               = ['@lemondefr','@courrierinter','@leJDD','@humanite_fr','@LEXPRESS','@libe','@LesEchos','@lobs','@MarianneleMag','@Le_Figaro','@AlterEco_','@_polemia','@sputnik_fr','@Europe_Israel','@Breizh_Info','@BVoltaire','@RTenfrancais','@InfoMdia','@Valeurs','@tvlofficiel','@LePoint','@F_Desouche','@Dreuz_1fo','@ndffr','@FrDesouche','@1RiposteLaique','@Contreinfo','@LaManifPourTous','@RNational_off','@EetR_National','@lenouvelliste','@letemps','@24heuresch','@20min','@20minutesOnline','@tdgch','@tagesanzeiger','@Blickch','@derbund','@LuzernerZeitung','@lecourrier','@laliberte','@heidi_news','@Lematinch','@BernerZeitung','@AargauerZeitung','@RTSinfo','@CdT_Online','@watson_news','@srfnews','@laregione','@RSInews']
-#['@Le_Figaro', '@libe', '@Conflits_FR', '@lemondefr', '@LCI', '@franceinfo', '@CNEWS', '@le_Parisien', '@RTenfrancais', '@sputnik_fr', '@BFMTV']
-lang                = 'fr'
+ACTORS                      = ['@lemondefr','@courrierinter','@leJDD','@humanite_fr',
+                            '@LEXPRESS','@libe','@LesEchos','@lobs','@MarianneleMag',
+                            '@Le_Figaro','@AlterEco_','@_polemia','@sputnik_fr','@Europe_Israel',
+                            '@Breizh_Info','@BVoltaire','@RTenfrancais','@InfoMdia','@Valeurs',
+                            '@tvlofficiel','@LePoint','@F_Desouche','@Dreuz_1fo','@ndffr','@FrDesouche',
+                            '@1RiposteLaique','@Contreinfo','@LaManifPourTous','@RNational_off',
+                            '@EetR_National','@lenouvelliste','@letemps','@24heuresch','@20min',
+                            '@20minutesOnline','@tdgch','@tagesanzeiger','@Blickch','@derbund',
+                            '@LuzernerZeitung','@lecourrier','@laliberte','@heidi_news','@Lematinch',
+                            '@BernerZeitung','@AargauerZeitung','@RTSinfo','@CdT_Online','@watson_news',
+                            '@srfnews','@laregione','@RSInews']  
+                                                                          
+                             # List of twitter accounts to retrieve
+FILENAME                    = 'results/timeline.csv'                                                                    # Resulting file
+LANG                        = 'fr'                                                                              # Restrict the query to a specific language ('fr', 'en'), None for all
+MAX_TWEETS_PER_ACCOUNT      = 4000                                                                              # Max number of tweets to retrieve by account, if free twitter license max is 3200
 
-TWEETS_PER_ACCOUNT  = 4000
 
-consumer_key        = CONSUMER_KEY
-consumer_secret     = CONSUMER_SECRET
-access_token        = ACCESS_TOKEN
-access_token_secret = ACCESS_TOKEN_SECRET
+# Create target Directory if don't exist
+if not os.path.exists('results'):
+    os.mkdir('results')
 
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
+auth = tweepy.OAuthHandler(credentials.CONSUMER_KEY, credentials.CONSUMER_SECRET)
+auth.set_access_token(credentials.ACCESS_TOKEN, credentials.ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
-header = ['tweet_id', 'user_id', 'user_name', 'followers', 'following', 'likes', 'retweets', 'date', 'reply_to_tweet_id', 'reply_to_user_id', 'reply_to_username', 'user_mentions_ids', 'user_mentions_names', 'text', 'retweet_from_user_id', 'retweet_from_username', 'retweet_from_tweet_id', 'urls']
+header = ['tweet_id', 'user_id', 'user_name', 'followers', 'following', 'likes', 
+          'retweets', 'date', 'reply_to_tweet_id', 'reply_to_user_id', 'reply_to_username', 
+          'user_mentions_ids', 'user_mentions_names', 'text', 'retweet_from_user_id', 
+          'retweet_from_username', 'retweet_from_tweet_id', 'urls']
 
 def saveTweet(row, filename):
     with open(filename, 'a') as f:
         writer = csv.writer(f)
         writer.writerow(row)
 
-
-for actor in actors: 
-    filename = 'data/timelines_3/' + actor + "_timeline.csv"
+for actor in ACTORS: 
     min_id = None
 
-    if os.path.exists(filename):
-        ids = pd.read_csv(filename).tweet_id.values
-        min_id = ids[0]
-        counter = len(ids)
+    if os.path.exists(FILENAME):
+        df = pd.read_csv(FILENAME)
+        df = df[df.user_name == actor[1:]]
+        df.date = pd.to_datetime(df.date)
+        ids = df.tweet_id.values
+        counter = len(ids)        
+        if counter:
+            min_id = int(df.loc[df.date.idxmax()].tweet_id)
+
     else: 
-        with open(filename, 'w') as f:
+        with open(FILENAME, 'w') as f:
             writer = csv.writer(f)
             writer.writerow(header)
         counter = 0
-
-    for tweets in tweepy.Cursor(api.user_timeline, min_id=min_id, screen_name=actor, tweet_mode="extended", lang=lang, count=100).pages(TWEETS_PER_ACCOUNT/100):
+    print(min_id)
+    for tweets in tweepy.Cursor(api.user_timeline, since_id=min_id, screen_name=actor, tweet_mode="extended", lang=LANG, count=100).pages(MAX_TWEETS_PER_ACCOUNT/100):
         for tweet in tweets:
             tweet_id = tweet.id_str
             user_id = tweet.user.id_str
@@ -81,7 +94,7 @@ for actor in actors:
                 retweet_from_tweet_id = tweet.retweeted_status.id_str
 
             row = [tweet_id, user_id, user_name, followers, following, likes, retweets, date, reply_to_tweet_id, reply_to_user_id, reply_to_username, user_mentions_ids, user_mentions_names, text, retweet_from_user_id, retweet_from_username, retweet_from_tweet_id, urls]
-            saveTweet(row, filename)
+            saveTweet(row, FILENAME)
 
             counter += 1
             print(f"{actor} -> Total fetched : {counter}\r", end="")    
