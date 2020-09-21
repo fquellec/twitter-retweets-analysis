@@ -41,20 +41,20 @@ In this section, we offer two ways to visualize some of the information we have 
 
 ### Clone
 
-> Clone this repo to your local machine using 
+Clone this repo to your local machine using 
 ```shell
 $ git clone https://github.com/Fanfou02/twitter-retweets-analysis.git
 ```
 
 ### Install Dependencies
 
-> Go to the `docs` folder with your terminal and install dependencies by executing the following
+Go to the `docs` folder with your terminal and install dependencies by executing the following
 
 ```shell
 $ npm install
 ```
 
-> If you want to use the partitioning function, which is useful for calculating partitions and visualizing polarization in graphs, install METIS for python following instructions [here](https://metis.readthedocs.io/en/latest/).
+If you want to use the partitioning function, which is useful for calculating partitions and visualizing polarization in graphs, install METIS for python following instructions [here](https://metis.readthedocs.io/en/latest/).
 
 ### Get some tweets
 First we need some data to generate interactions graphs, go to the [data-mining](https://github.com/Fanfou02/twitter-retweets-analysis/tree/master/data-mining) folder and choose one of the three methods. For example, if you want to search for all discussions mentionning the keyword `police` in the last week, open `searchKeyword.py`, change the query option and execute the following command: 
@@ -79,7 +79,7 @@ Then execute `retweet_graph.py`:
 $ python3 retweet_graph.py
 ```
 
-Then a JSON file and a GEPHI file will be generated in the retweet_graphs folder.
+Finally, a JSON file and a GEPHI file containing the produced graph will be generated in the retweet_graphs folder. You can view the graph directly using [Gephi](https://gephi.org/) or [networkx](https://networkx.github.io/)
 
 ### Plot your results
 
