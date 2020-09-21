@@ -1,6 +1,6 @@
 # Retweet networks and analysis of twitter discussions
 
-Intro BLABLABLA 
+In this repo, we propose several tools to easily get an overview of the debates on twitter using Python. We first propose three ways to collect tweets with the twitter API, then we build different types of interactions graphs with these tweets to visualize the polarization in the discussions and obtain statistics on the actors of the flows. Finally, with the statistics obtained from the graphs we added previously, we propose two possible visualizations to interpret the previous results.
 
 ---
 
@@ -11,22 +11,30 @@ Intro BLABLABLA
 We propose three ways to collect tweets in the [data-mining](https://github.com/Fanfou02/twitter-retweets-analysis/tree/master/data-mining) folder : 
 - `searchKeyword.py`: collect tweets from the twitter api using the search call, by specifying one or more keywords or hashtags, we can retrieve up to the last week of the tweet corresponding to this keyword(s). (with the free twitter license)
 - `streamUsers.py`: use the streaming api of twitter to fetch in real time all tweets related to the list of accounts we specify.
-- `getTimelines.py`: retrieve up to 3200 tweets (depending on the license) of each user we specify.
+- `getTimelines.py`: retrieve up to 3200 tweets (with the free twitter license) of each user we specify.
 
 ### Graph generation
 
-Once we have our dataset of tweets, we can generate two type of interaction graph : 
-- Retweet Graph: BLABLABLA
-- Co-retweet Graph: co-retweeting is the act of a single user retweeting two - or more - different accounts. These acts are used to create between accounts co-returned in the network. The more users retweet these two accounts, the more likely they are to retweet, the more the advantage gains weight
+Once we have gathered our tweets, we can generate two type of interaction graph : 
+- Retweet Graph: One of the more popular way to visualize interactions on twitter, a retweet graph is a directed graph
+of users that have participated in the discussion on a specific topic/keyword. Each node correspond to a twitter account and a directed edge between to nodes `u` and `v` indicates that user `v` has been retweeted by user `u`. Since retweet often indicates endorsement ([source](http://cs.wellesley.edu/~pmetaxas/WorkingPapers/Retweet-meaning.pdf)), we can use this kind of graph to detect polarization and communities in twitter discussions.
 
-Example with keyword "police" in french: 
+- Co-retweet Graph: The co-retweeted network is constructed as the undirected weighted graph that connects highly visible accounts who have been retweeted by members of the audience during some real-time event. If two accounts have been retweeted several times by the same people, an edge is added between theses two accounts. The co-retweeted network can be seen as a form of consulting the opinion of the crowd that is following the discussion about the similarity (or difference) of positions expressed by the highly visible accounts. When applied to polarized discussions, it can be applied to retrieve orientation of major players in the discussion. [source](https://pdfs.semanticscholar.org/02a3/7c9c0f57cc60ab282fd39367cb93dd1b97b4.pdf)
+
+These two interaction graphs can be used for different purposes, one is directed and allows us to use well-known algorithms such as HITS for computing hubs and authorities. Whereas the other one highlights the important actors and better represents the polarization in the twitter debates.
+
+Example of co-retweet network with keyword "police" in french: 
 <div style="text-align:center"><img src="https://raw.githubusercontent.com/Fanfou02/twitter-retweets-analysis/master/imgs/police_graph.png" /></div>
 
 ### Plots
-- Reactions versus Number of followers
+In this section, we offer two ways to visualize some of the information we have from the data we have collected. 
+
+- Reactions versus Number of followers: This plot can help us better understand which account generates the most reactions in relation to its number of followers, we only need a tweet list to generate the plot.
+
 <div style="text-align:center"><img src="https://raw.githubusercontent.com/Fanfou02/twitter-retweets-analysis/master/imgs/ReactionsVsFollowers.png" /></div>
 
-- Partisanship
+- Partisanship: This plot allows us to visualize the orientation of some twitter accounts in a discussion, for now it only makes sense when a discussion is polarized on two opposite sides, it calculates the number of links a node shares with each side of the discussion. (Carefully check that the retweet or co-retweet graph is polarized on two opposite sides and that the partition is well defined).
+
 <div style="text-align:center"><img src="https://raw.githubusercontent.com/Fanfou02/twitter-retweets-analysis/master/imgs/partisanship.png" /></div>
 
 ## Getting Started
@@ -35,7 +43,7 @@ Example with keyword "police" in french:
 
 > Clone this repo to your local machine using 
 ```shell
-$ git clone https://github.com/com-480-data-visualization/com-480-project-coronateam.git
+$ git clone https://github.com/Fanfou02/twitter-retweets-analysis.git
 ```
 
 ### Install Dependencies
