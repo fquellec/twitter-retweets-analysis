@@ -1,6 +1,6 @@
 # Retweet networks and analysis of twitter discussions
 
-In this repo, we propose several tools to easily get an overview of the debates on twitter using Python. We first propose three ways to collect tweets with the twitter API, then we build different types of interactions graphs with these tweets to visualize the polarization in the discussions and obtain statistics on the actors of the flows. Finally, with the statistics obtained from the graphs we added previously, we propose two possible visualizations to interpret the previous results.
+In this repo, we propose several tools to easily get an overview of the debates on twitter using Python. We first propose three ways to collect tweets with the twitter API, then we build different types of interactions graphs with these tweets to visualize the polarization in the discussions and obtain statistics on the actors of the flows. Finally, with the statistics obtained from the graphs we added previously, we propose two possible visualizations to interpret some of the previous results.
 
 ---
 
@@ -15,7 +15,7 @@ We propose three ways to collect tweets in the [data-mining](https://github.com/
 
 ### Graph generation
 
-Once we have gathered our tweets, we can generate two type of interaction graph : 
+Once we have gathered our tweets, we can generate two type of interaction graph in the [graphs](https://github.com/Fanfou02/twitter-retweets-analysis/tree/master/graphs) folder: 
 - Retweet Graph: One of the more popular way to visualize interactions on twitter, a retweet graph is a directed graph
 of users that have participated in the discussion on a specific topic/keyword. Each node correspond to a twitter account and a directed edge between to nodes `u` and `v` indicates that user `v` has been retweeted by user `u`. Since retweet often indicates endorsement ([source](http://cs.wellesley.edu/~pmetaxas/WorkingPapers/Retweet-meaning.pdf)), we can use this kind of graph to detect polarization and communities in twitter discussions.
 
@@ -54,15 +54,36 @@ $ git clone https://github.com/Fanfou02/twitter-retweets-analysis.git
 $ npm install
 ```
 
+> If you want to use the partitioning function, which is useful for calculating partitions and visualizing polarization in graphs, install METIS for python following instructions [here](https://metis.readthedocs.io/en/latest/).
+
 ### Get some tweets
-BLABLABLA
+First we need some data to generate interactions graphs, go to the [data-mining](https://github.com/Fanfou02/twitter-retweets-analysis/tree/master/data-mining) folder and choose one of the three methods. For example, if you want to search for all discussions mentionning the keyword `police` in the last week, open `searchKeyword.py`, change the query option and execute the following command: 
+
+```shell
+$ python3 searchKeyword.py
+```
+
+Then, a CSV file in the directory `results` will be generated with all the tweets corresponding to your query
 
 ### Build the retweet/co-retweet graph
-BLABLABLA
+Once you got some tweets, go to the [graphs](https://github.com/Fanfou02/twitter-retweets-analysis/tree/master/graphs) folder and choose between co-retweet and retweet graph. Open the corresponding python file and change the input/output filenames variables with the previously generated csv file. For example, open [retweet_graph.py](https://github.com/Fanfou02/twitter-retweets-analysis/tree/master/graphs/retweet_graph.py) and change the following variable as follow:
+
+```shell
+FILENAME_TWEET              = "../data-mining/results/police_tweets.csv"        # CSV of all tweets considered in the graph, build with one of data_mining script
+FILENAME_GRAPH              = "police_graph"                                    # Output filename
+```
+
+Then execute `retweet_graph.py`: 
+
+```shell
+$ python3 retweet_graph.py
+```
+
+Then a JSON file and a GEPHI file will be generated in the retweet_graphs folder.
 
 ### Plot your results
-BLABLABLA
 
+Not Implemented yet
 
 ## License
 
