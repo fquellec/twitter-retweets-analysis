@@ -15,10 +15,8 @@ ACTORS                      = ['@lemondefr','@courrierinter','@leJDD','@humanite
                             '@20minutesOnline','@tdgch','@tagesanzeiger','@Blickch','@derbund',
                             '@LuzernerZeitung','@lecourrier','@laliberte','@heidi_news','@Lematinch',
                             '@BernerZeitung','@AargauerZeitung','@RTSinfo','@CdT_Online','@watson_news',
-                            '@srfnews','@laregione','@RSInews']  
-                                                                          
-                             # List of twitter accounts to retrieve
-FILENAME                    = 'results/timeline.csv'                                                                    # Resulting file
+                            '@srfnews','@laregione','@RSInews']                                                 # List of twitter accounts to retrieve
+FILENAME                    = 'results/timeline.csv'                                                            # Resulting file
 LANG                        = 'fr'                                                                              # Restrict the query to a specific language ('fr', 'en'), None for all
 MAX_TWEETS_PER_ACCOUNT      = 4000                                                                              # Max number of tweets to retrieve by account, if free twitter license max is 3200
 
