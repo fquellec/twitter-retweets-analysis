@@ -48,13 +48,16 @@ $ git clone https://github.com/Fanfou02/twitter-retweets-analysis.git
 
 ### Install Dependencies
 
-Go to the `docs` folder with your terminal and install dependencies by executing the following
+Go to the root of the project with your terminal and install dependencies by executing the following
 
 ```shell
-$ npm install
+$ pip3 install -r requirements.txt
 ```
 
 If you want to use the partitioning function, which is useful for calculating partitions and visualizing polarization in graphs, install METIS for python following instructions [here](https://metis.readthedocs.io/en/latest/).
+
+### Add your twitter API credentials
+First you need to have or create a Twitter account, then apply for a developer account [here](https://developer.twitter.com/en). Once you have a developper account you need to register an app to be able to make API calls. Go to [your Twitter apps page](https://developer.twitter.com/en/apps) and select the Create an app option. Fill in the form then go again to your Twitter apps page, click on the `Details` button of your app, this button takes you to the next page, where you can generate the credentials. Once you have your credentials, fill the [data-mining/credentials.py](https://github.com/Fanfou02/twitter-retweets-analysis/tree/master/data-mining) file. 
 
 ### Get some tweets
 First we need some data to generate interactions graphs, go to the [data-mining](https://github.com/Fanfou02/twitter-retweets-analysis/tree/master/data-mining) folder and choose one of the three methods. For example, if you want to search for all discussions mentionning the keyword `police` in the last week, open `searchKeyword.py`, change the query option and execute the following command: 
