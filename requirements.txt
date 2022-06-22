@@ -1,7 +1,7 @@
 matplotlib==3.1.2
 metis==0.2a4
 networkx==2.3
-numpy==1.17.4
+numpy==1.22.0
 pandas==0.25.3
 seaborn==0.9.0
 tweepy==3.8.0
